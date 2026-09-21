@@ -1,0 +1,41 @@
+<launch>
+    <let name="urdf_path" value="$(find-pkg-share sbr_description)/urdf/sbr.urdf.xacro"/>
+    <let name="rviz_config_path" value="$(find-pkg-share sbr_description)/rviz/sbr_display.rviz"/>
+    <let name="gazebo_config_path" value="$(find-pkg-share sbr_bringup)/config/gazebo_bridge.yml"/>
+
+    <node pkg="robot_state_publisher" exec="robot_state_publisher"  output="screen">
+        <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+        <param name="use_sim_time" value="true"/>
+    </node>
+
+    <include file="$(find-pkg-share ros_gz_sim)/launch/gz_sim.launch.py">
+        <arg name="gz_args"
+            value="$(find-pkg-share sbr_bringup)/worlds/empty.sdf -r"/>
+    </include>
+
+    <node pkg="ros_gz_sim" exec="create" output="screen" args="-topic robot_description -z 0.205"/>
+
+    <node pkg="ros_gz_bridge" exec="parameter_bridge">
+        <param name="config_file" value="$(var gazebo_config_path)"/>
+    </node>
+
+    <node pkg="imu_filter_madgwick" exec="imu_filter_madgwick_node" output="screen">
+        <param name="use_sim_time" value="true"/>
+        <param name="use_mag" value="false"/>
+        <param name="publish_tf" value="false"/>
+        <remap from="imu/data_raw" to="/imu/data_raw"/>
+    </node>
+
+   <node pkg="controller_manager"
+      exec="spawner"
+      output="screen"
+      args="joint_state_broadcaster wheel_velocity_controller --activate-as-group"/>
+
+    <node pkg="sbr_controller" exec="balance_controller" output="screen">
+        <param from="$(find-pkg-share sbr_bringup)/config/balance_controller_param.yml"/>
+        <param name="use_sim_time" value="true"/>
+    </node>
+    <!-- <node pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config_path)">
+        <param name="use_sim_time" value="true"/>
+    </node> -->
+</launch>

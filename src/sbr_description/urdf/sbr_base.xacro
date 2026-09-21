@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="base_length" value="0.085"/>
+    <xacro:property name="base_width"  value="0.175"/>
+    <xacro:property name="base_height" value="0.25"/>
+    <xacro:property name="wheel_radius" value="0.08"/>
+    <xacro:property name="wheel_length" value="0.05"/>
+    <xacro:property name="face_depth"  value="0.001"/>
+    <xacro:property name="face_width"  value="0.135"/>
+    <xacro:property name="face_height" value="0.09"/>
+    <xacro:property name="eye_radius" value="0.03"/>
+    <xacro:property name="eye_depth"  value="0.001"/>
+    <xacro:property name="eye_offset_y" value="0.0325"/>
+
+    <xacro:macro name="wheel_link" params="prefix">
+        <link name="${prefix}_wheel_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertia m="0.2" r="${wheel_radius}" h="${wheel_length}"
+                              o_xyz="0 0 0" o_rpy="${pi/2.0} 0 0"/>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="eye_link" params="prefix">
+        <link name="${prefix}_eye_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="${eye_radius}" length="${eye_depth}"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="${eye_radius}" length="${eye_depth}"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertia m="0.001" r="${eye_radius}" h="${eye_depth}"
+                              o_xyz="0 0 0" o_rpy="0 ${pi/2} 0"/>
+        </link>
+    </xacro:macro>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.75" x="${base_length}" y="${base_width}" z="${base_height}"
+                           o_xyz="0 0 0" o_rpy="0 0 0"/>
+    </link>
+
+    <xacro:wheel_link prefix="left"/>
+    <xacro:wheel_link prefix="right"/>
+
+    <link name="face_panel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${face_depth} ${face_width} ${face_height}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${face_depth} ${face_width} ${face_height}"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.002" x="${face_depth}" y="${face_width}" z="${face_height}"
+                           o_xyz="0 0 0" o_rpy="0 0 0"/>
+    </link>
+
+    <xacro:eye_link prefix="left"/>
+    <xacro:eye_link prefix="right"/>
+
+    <joint name="base_left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin xyz="0 ${(base_width + wheel_length)/2} ${-base_height/2}" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="base_right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin xyz="0 ${-(base_width + wheel_length)/2} ${-base_height/2}" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="base_face_panel_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="face_panel_link"/>
+        <origin xyz="${(base_length/2) + face_depth} 0 ${(base_height/2) - face_height/2 - 0.02}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="face_left_eye_joint" type="fixed">
+        <parent link="face_panel_link"/>
+        <child link="left_eye_link"/>
+        <origin xyz="${(face_depth + eye_depth)/2} ${eye_offset_y} 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="face_right_eye_joint" type="fixed">
+        <parent link="face_panel_link"/>
+        <child link="right_eye_link"/>
+        <origin xyz="${(face_depth + eye_depth)/2} ${-eye_offset_y} 0" rpy="0 0 0"/>
+    </joint>
+
+</robot>

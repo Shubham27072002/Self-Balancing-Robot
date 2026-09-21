@@ -1,0 +1,11 @@
+# ROS 2 workspace build artifacts
+build/
+install/
+log/
+
+# VS Code
+.vscode/
+
+# Generated project data
+shared/*
+!shared/.gitkeep

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="balancing_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="sbr_common_properties.xacro"/>
+    <xacro:include filename="sbr_base.xacro"/>
+    <xacro:include filename="sbr_imu.xacro"/>
+    <xacro:include filename="sbr_gazebo.xacro"/>
+    <xacro:include filename="ros2_controller.xacro"/>
+</robot>

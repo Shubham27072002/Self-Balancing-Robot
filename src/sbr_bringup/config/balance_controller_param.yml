@@ -1,0 +1,35 @@
+/balance_controller:
+  ros__parameters:
+    # Pitch PID
+    pitch_kp: 100.0
+    pitch_ki: 0.01
+    pitch_kd: 0.5
+    pitch_integral_limit: 0.5
+
+    # Velocity PID
+    velocity_kp: 0.5
+    velocity_ki: 0.1
+    velocity_kd: 0.05
+    velocity_integral_limit: 0.15
+
+    # Position PID
+    position_kp: 0.25
+    position_ki: 0.0
+    position_kd: 0.08
+    position_integral_limit: 0.30
+    max_hold_velocity: 0.10
+
+    # Yaw Control
+    max_yaw_wheel_velocity: 8.0
+    max_angular_acceleration: 1.0
+    max_yaw_rate: 0.8
+
+    # Teleop
+    max_linear_acceleration: 0.6
+    stop_velocity_threshold: 0.1
+
+    # Safety Limits
+    max_velocity: 30.0
+    fall_angle: 1.2
+    max_pitch_offset: 0.10
+

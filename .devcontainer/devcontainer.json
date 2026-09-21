@@ -1,0 +1,20 @@
+{
+  "name": "ROS2 Docker",
+  "dockerComposeFile": "../docker/docker-compose.yml",
+  "service": "ros2_dev",
+  "workspaceFolder": "/ros2_ws",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "ubuntu",
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-iot.vscode-ros",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ]
+    }
+  }
+}

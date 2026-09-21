@@ -1,0 +1,42 @@
+services:
+  ros2_dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: jazzy
+        USERNAME: ubuntu
+        USER_UID: ${UID:-1000}
+        USER_GID: ${GID:-1000}
+
+    image: sbr-jazzy-dev
+    container_name: sbr_jazzy_dev
+
+    environment:
+      DISPLAY: ${DISPLAY}
+      QT_X11_NO_MITSHM: "1"
+      # ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
+
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+    # Required for accessing hardware.
+    # privileged: true
+
+    # device_cgroup_rules:
+    #   - "c *:* rmw"
+    
+    # Requires NVIDIA drivers and NVIDIA Container Toolkit on the host.
+    # gpus: all
+
+    volumes:
+      # Required for accessing hardware.
+      # - /dev:/dev
+      # Mount the source directory to ros2_ws/src.
+      - ../src:/ros2_ws/src
+      - ../shared:/ros2_ws/shared
+      # Allow ROS GUI applications to connect to the host X server.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Required for ROS 2 shared memory communication
+      # - /dev/shm:/dev/shm
