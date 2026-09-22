@@ -35,7 +35,7 @@ services:
       # - /dev:/dev
       # Mount the source directory to ros2_ws/src.
       - ../src:/ros2_ws/src
-      - ../shared:/ros2_ws/shared
+      - ../docs:/ros2_ws/docs
       # Allow ROS GUI applications to connect to the host X server.
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       # Required for ROS 2 shared memory communication

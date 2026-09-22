@@ -1,6 +1,6 @@
 # Self-Balancing Robot
 
-A two-wheeled, self-balancing robot simulated in **Gazebo (Harmonic)** on **ROS 2 Jazzy**, controlled by a cascaded PID stack (pitch → velocity → position) with teleop and position-hold, built on the standard `ros2_control` hardware-abstraction layer.
+A two-wheeled, self-balancing robot simulated in **Gazebo (Harmonic)** on **ROS 2 Jazzy**, controlled by a cascaded PID stack (pitch --> velocity --> position) with teleop and position-hold, built on the standard `ros2_control` hardware-abstraction layer.
 
 <!-- 
   Demo: balance test + teleop, stitched together.
@@ -17,7 +17,7 @@ The goal of this project was to build a working inverted-pendulum-on-wheels robo
 ## Features
 
 - **URDF/xacro model** — simple box/cylinder geometry with proper collision and inertia, spawned in Gazebo via `gz_ros2_control`
-- **IMU-based pitch estimation** — simulated IMU → `imu_filter_madgwick` → orientation quaternion → pitch extracted via quaternion-to-Euler
+- **IMU-based pitch estimation** — simulated IMU --> `imu_filter_madgwick` --> orientation quaternion --> pitch extracted via quaternion-to-Euler
 - **Cascaded PID control**
   - **Pitch loop** (100 Hz, inner) — the balance loop
   - **Velocity loop** (10 Hz, outer) — regulates forward speed, outputs a pitch offset (feed-forward + feedback lean)
@@ -102,6 +102,27 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 Stop sending a command and the robot automatically latches into position-hold at wherever it stopped.
 
+### Disturbance Recovery Test
+
+A simple disturbance test is included to check how the balance controller responds to external perturbations. The test applies alternating pitch torques to the robot through Gazebo's persistent wrench interface and clears each torque after a fixed duration.
+
+The current test applies `+0.25 N.m` and `-0.25 N.m` torques for `0.25 s`. After each disturbance, the test waits for the robot to stabilize before applying the next one.
+
+Run the test with:
+
+```bash
+ros2 run sbr_controller balance_test --ros-args -p use_sim_time:=true
+```
+
+
+I would **not call `0.25 N.m for 0.25 s` the "absolute limit" in the README**. You experimentally showed that it repeatedly works and that `0.25 N.m for 0.4 s` eventually fails. So "demonstrated disturbance" or "practical recovery test" is more defensible.
+
+Also update your package layout from:
+
+```text
+sbr_controller/     # balance_controller node
+```
+
 ## Tuning
 
 All gains and safety limits live in one place: [`src/sbr_bringup/config/balance_controller_param.yml`](src/sbr_bringup/config/balance_controller_param.yml) — separate sections for the pitch, velocity, position, and yaw loops, plus teleop ramp rates and safety limits (`fall_angle`, `max_velocity`, `max_pitch_offset`).
@@ -116,4 +137,4 @@ All gains and safety limits live in one place: [`src/sbr_bringup/config/balance_
 ## License
 
 <!-- Add a LICENSE file at the repo root and name it here, e.g. MIT -->
-TBD
+This project is licensed under the [MIT License](LICENSE).

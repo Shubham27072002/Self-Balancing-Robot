@@ -26,7 +26,7 @@ RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME} && \
     usermod -aG dialout,video ${USERNAME}
 
-RUN mkdir -p ${WORKSPACE}/src ${WORKSPACE}/shared && \
+RUN mkdir -p ${WORKSPACE}/src ${WORKSPACE}/docs && \
     chown -R ${USER_UID}:${USER_GID} ${WORKSPACE} && \
     chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
 

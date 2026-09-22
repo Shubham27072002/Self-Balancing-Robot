@@ -5,7 +5,7 @@
   "workspaceFolder": "/ros2_ws",
   "shutdownAction": "stopCompose",
   "remoteUser": "ubuntu",
-  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+  "postCreateCommand": "bash -lc 'source /opt/ros/jazzy/setup.bash && colcon build --symlink-install'",
   "customizations": {
     "vscode": {
       "extensions": [

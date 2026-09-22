@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='shubham',
     maintainer_email='27shubhamprajapati@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='ROS 2 controller for a simulated two-wheel self-balancing robot',
+    license='MIT',
     extras_require={
         'test': [
             'pytest',
@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'balance_controller = sbr_controller.balance_controller:main'
+            'balance_controller = sbr_controller.balance_controller:main',
+            'balance_test = sbr_controller.balance_test:main',
         ],
     },
 )

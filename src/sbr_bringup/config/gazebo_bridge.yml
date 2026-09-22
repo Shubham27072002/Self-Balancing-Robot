@@ -9,3 +9,15 @@
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
+
+- ros_topic_name: "/wrench_persistent" 
+  gz_topic_name: "/world/empty/wrench/persistent" 
+  ros_type_name: "ros_gz_interfaces/msg/EntityWrench" 
+  gz_type_name: "gz.msgs.EntityWrench" 
+  direction: ROS_TO_GZ 
+  
+- ros_topic_name: "/wrench_clear" 
+  gz_topic_name: "/world/empty/wrench/clear" 
+  ros_type_name: "ros_gz_interfaces/msg/Entity" 
+  gz_type_name: "gz.msgs.Entity" 
+  direction: ROS_TO_GZ

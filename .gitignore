@@ -3,9 +3,8 @@ build/
 install/
 log/
 
+# Python
+__pycache__/
+
 # VS Code
 .vscode/
-
-# Generated project data
-shared/*
-!shared/.gitkeep

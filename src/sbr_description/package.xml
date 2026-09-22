@@ -3,9 +3,9 @@
 <package format="3">
   <name>sbr_description</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>URDF/Xacro robot description and visualization files for the self-balancing robot</description>
   <maintainer email="27shubhamprajapati@gmail.com">shubham</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
