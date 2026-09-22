@@ -10,7 +10,7 @@ A two-wheeled, self-balancing robot simulated in **Gazebo (Harmonic)** on **ROS 
 
 ## Overview
 
-The goal of this project was to build a working inverted-pendulum-on-wheels robot end to end: model it, simulate it with realistic physics, fuse IMU data into a usable pitch estimate, and design a cascaded controller that balances, holds a position, and responds to velocity/turn commands — the same architecture (and largely the same interfaces) a real self-balancing robot would use.
+The goal of this project was to build a working inverted-pendulum-on-wheels robot end to end: model it, simulate it with realistic physics, fuse IMU data into a usable pitch estimate, and design a cascaded controller that balances, holds a position, and responds to velocity/turn commands.
 
 **Stack:** ROS 2 Jazzy · Gazebo Harmonic (`gz-sim`) · `ros2_control` / `gz_ros2_control` · `imu_filter_madgwick`
 
@@ -110,15 +110,6 @@ Run the test with:
 
 ```bash
 ros2 run sbr_controller balance_test --ros-args -p use_sim_time:=true
-```
-
-
-I would **not call `0.25 N.m for 0.25 s` the "absolute limit" in the README**. You experimentally showed that it repeatedly works and that `0.25 N.m for 0.4 s` eventually fails. So "demonstrated disturbance" or "practical recovery test" is more defensible.
-
-Also update your package layout from:
-
-```text
-sbr_controller/     # balance_controller node
 ```
 
 ## Tuning
