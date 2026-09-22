@@ -40,12 +40,10 @@ flowchart TD
     YAW --> MIX
     MIX -->|left / right velocity| OUT["/wheel_velocity_controller/commands"]
 ```
-
 Wheel velocity is commanded through `ros2_control`'s `velocity_controllers/JointGroupVelocityController` — the same interface a real motor driver would expose — rather than driving Gazebo directly, so the controller code isn't sim-specific.
 
-<!-- 
-  rqt_graph: run `rqt_graph` while the sim is running, save it, and drop it at docs/media/rqt_graph.png
--->
+The diagram above shows the controller's *internal* logic; the graph below is the *actual* running ROS graph, generated with `rqt_graph`, confirming the wiring matches.
+
 ![rqt graph](docs/media/rqt_graph.png)
 
 ## Package layout
